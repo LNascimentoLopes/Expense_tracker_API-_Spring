@@ -10,7 +10,6 @@ import java.util.UUID;
 @Data
 public class PatchExpenseRequest {
 
-    private UUID id;
     private Optional<String> description = Optional.empty();
     private Optional<Double> price = Optional.empty();
     private Optional<Integer> amount = Optional.empty();

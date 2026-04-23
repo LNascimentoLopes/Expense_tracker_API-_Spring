@@ -3,7 +3,6 @@ package teste.ExpenseTracker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import teste.ExpenseTracker.Details.CustomUserDetails;
-import teste.ExpenseTracker.dto.DeleteRequest;
 import teste.ExpenseTracker.dto.ExpenseRequest;
 import teste.ExpenseTracker.dto.PatchExpenseRequest;
 import teste.ExpenseTracker.entity.Expense;
@@ -11,12 +10,8 @@ import teste.ExpenseTracker.entity.User;
 import teste.ExpenseTracker.repository.ExpenseRepository;
 import teste.ExpenseTracker.repository.UserRepository;
 
-import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
 public class ExpenseService {
@@ -42,9 +37,9 @@ public class ExpenseService {
 
     }
 
-    public void patchExpense(PatchExpenseRequest request, CustomUserDetails user) throws Exception {
+    public void patchExpense(PatchExpenseRequest request, CustomUserDetails user, UUID id )throws Exception {
         User Current = user.getUser();
-        Expense expense = expenseRepository.findById(request.getId()).orElseThrow();
+        Expense expense = expenseRepository.findById(id).orElseThrow();
         if (!Current.getId().equals(expense.getUser().getId())){
             throw new Exception();
         }
@@ -55,10 +50,10 @@ public class ExpenseService {
         expenseRepository.save(expense);
     }
 
-    public void deleteExpense(DeleteRequest request, CustomUserDetails user) throws Exception {
+    public void deleteExpense(UUID id, CustomUserDetails user) throws Exception {
         User Current = user.getUser();
 
-        Expense expense = expenseRepository.findById(request.getUuid()).orElseThrow();
+        Expense expense = expenseRepository.findById(id).orElseThrow();
 
         if (!Current.getId().equals(expense.getUser().getId())){
             throw new Exception();
